@@ -1,0 +1,30 @@
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+
+# Node
+node_modules/
+dist/
+
+# Playwright / eBird session cookies
+**/ebird_storage_state.json
+
+# Generated outputs
+*.html
+!index.html
+
+# No longer used (kept only as a temporary local artifact)
+index.redirect.html
+
+# Generated CSV artifacts
+tripreport_name_reconciliation.csv
+tripreport_heuristic_only.csv
+data/*.updated.csv
+
+# Archived input datasets
+data/archive/
+
+# Optional debug artifacts
+*debug*.html
+*page*.html
