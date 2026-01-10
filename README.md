@@ -2,7 +2,7 @@
 
 Static Plotly-based visualization of the CBC long-term dataset.
 
-- Hosted app: https://hydrospheric0.github.io/cbc-species-plot/
+- Project page: https://github.com/hydrospheric0/cbc-capcplot
 
 ## Project layout
 
