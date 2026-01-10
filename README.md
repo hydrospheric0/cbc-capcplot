@@ -20,6 +20,8 @@ Older CSV inputs are archived under `data/archive/`.
 ## Support
 If you find this tool useful, please consider supporting its development:
 
-[![Buy Me a Coffee](https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png)](https://buymeacoffee.com/bartg)
+<a href="https://buymeacoffee.com/bartg">
+	<img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me a Coffee" width="180" />
+</a>
 
 - GitHub Sponsors: https://github.com/sponsors/hydrospheric0
