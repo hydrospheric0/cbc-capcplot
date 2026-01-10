@@ -28,3 +28,6 @@ data/archive/
 # Optional debug artifacts
 *debug*.html
 *page*.html
+
+# Local helper scripts (not tracked)
+pushit.sh
