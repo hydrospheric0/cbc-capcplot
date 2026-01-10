@@ -6,7 +6,7 @@ The Christmas Bird Count is the nation’s longest-running community science bir
 
 Plotly-based visualization of the Putah Creek CBC (CAPC) long-term dataset
 
-- Project page: https://github.com/hydrospheric0/cbc-capcplot
+- Project page: https://hydrospheric0.github.io/cbc-capcplot/
 
 ## Project layout
 
