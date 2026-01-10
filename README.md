@@ -1,5 +1,7 @@
 # CBC Species Plot
 
+[![languages](https://img.shields.io/github/languages/count/hydrospheric0/cbc-species-plot?label=languages)](https://github.com/hydrospheric0/cbc-species-plot)
+
 Static Plotly-based visualization of the CBC long-term dataset.
 
 - Project page: https://github.com/hydrospheric0/cbc-capcplot
