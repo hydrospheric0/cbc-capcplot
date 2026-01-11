@@ -1036,6 +1036,59 @@
             titleEl.textContent = text;
         }
 
+        function normalizeSpeciesQuery(s) {
+            return String(s || '')
+                .trim()
+                .toLowerCase()
+                .replace(/[_\-]+/g, ' ')
+                .replace(/\s+/g, ' ');
+        }
+
+        function getSpeciesIndexFromUrl() {
+            try {
+                const params = new URLSearchParams(window.location.search || '');
+                const raw = (params.get('species') ?? params.get('sp') ?? params.get('i') ?? params.get('idx') ?? '').trim();
+                if (!raw) return null;
+
+                if (/^\d+$/.test(raw)) {
+                    const i = Number(raw);
+                    if (Number.isFinite(i) && i >= 0 && i < (SPECIES?.length || 0)) return i;
+                }
+
+                const q = normalizeSpeciesQuery(raw);
+                if (!q) return null;
+
+                const labels = SPECIES_LABELS || [];
+                const names = SPECIES || [];
+
+                for (let i = 0; i < Math.max(labels.length, names.length); i++) {
+                    const a = normalizeSpeciesQuery(labels[i] || '');
+                    const b = normalizeSpeciesQuery(names[i] || '');
+                    if (a && a === q) return i;
+                    if (b && b === q) return i;
+                }
+
+                for (let i = 0; i < Math.max(labels.length, names.length); i++) {
+                    const a = normalizeSpeciesQuery(labels[i] || '');
+                    const b = normalizeSpeciesQuery(names[i] || '');
+                    if (a && (a.includes(q) || q.includes(a))) return i;
+                    if (b && (b.includes(q) || q.includes(b))) return i;
+                }
+            } catch (e) {}
+            return null;
+        }
+
+        function setUrlSpeciesParam(i) {
+            try {
+                const params = new URLSearchParams(window.location.search || '');
+                const label = (SPECIES_LABELS && SPECIES_LABELS[i]) || (SPECIES && SPECIES[i]) || String(i);
+                params.set('species', label);
+                const qs = params.toString();
+                const url = `${window.location.pathname}${qs ? `?${qs}` : ''}${window.location.hash || ''}`;
+                window.history.replaceState(null, '', url);
+            } catch (e) {}
+        }
+
         function setSpecies(index) {
             const i = Number(index) || 0;
             const vis = VIS_BY_SPECIES[i];
@@ -1056,6 +1109,8 @@
             if (trendingSelect) trendingSelect.value = trendingIndexSet.has(i) ? String(i) : '';
 
             updateTrendline(i, vis, speciesName);
+
+            setUrlSpeciesParam(i);
         }
 
         function initSpeciesSelect() {
@@ -1170,7 +1225,8 @@
                     }
                     initSpeciesSelect();
                     initTrendingSelect();
-                    setSpecies(DEFAULT_INDEX);
+                    const initial = getSpeciesIndexFromUrl();
+                    setSpecies(Number.isFinite(initial) ? initial : DEFAULT_INDEX);
                 });
             });
         }
