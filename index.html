@@ -26,9 +26,9 @@
                 body { font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; color: var(--text); overflow: hidden; }
 
                 .app {
-                    display: flex;
-                    flex-direction: column;
-                    height: 100vh;
+                    display: grid;
+                    grid-template-rows: 150px auto minmax(0, 1fr) 100px;
+                    height: 100svh;
                     width: 100%;
                     background: #fff;
                 }
@@ -137,7 +137,7 @@
                 /* Plot pane: split into two clear regions (plot + trendline) */
                 #plot.pane.active {
                     display: grid;
-                    grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
+                    grid-template-rows: minmax(260px, 3fr) minmax(180px, 2fr);
                     height: 100%;
                     overflow: hidden;
                 }
@@ -149,6 +149,40 @@
             font-size: 36px;
             font-weight: 800;
             color: var(--header-bg);
+        }
+
+        @media (max-height: 760px) {
+            .plotheader { font-size: 28px; }
+            #plot.pane.active { grid-template-rows: minmax(220px, 3fr) minmax(160px, 2fr); }
+        }
+
+        @media (max-height: 560px) {
+            .plotheader { font-size: 22px; }
+            #plot.pane.active { grid-template-rows: minmax(200px, 3fr) minmax(140px, 2fr); }
+        }
+
+        /* Extremely short viewports: allow scrolling instead of clipping */
+        @media (max-height: 440px) {
+            #plot.pane.active {
+                display: block;
+                overflow: auto;
+            }
+
+            .plotwrap {
+                height: 260px;
+                min-height: 220px;
+                flex: 0 0 auto;
+            }
+
+            #mainPlot { height: 100%; }
+
+            .trendRegion {
+                overflow: visible;
+            }
+
+            .trendstats {
+                max-height: none;
+            }
         }
 
         .plotRegion {
@@ -169,10 +203,6 @@
                     #mainPlot { width: 100%; height: 100%; min-height: 0; }
                     /* Plotly sometimes sets inline heights; force it to respect our flex height */
                     #mainPlot.js-plotly-plot { height: 100% !important; }
-                    /* Prevent Plotly from clipping axis labels when constrained */
-                    #mainPlot .svg-container { overflow: visible !important; }
-                    #mainPlot .main-svg { overflow: visible !important; }
-                    #mainPlot .infolayer { overflow: visible !important; }
         .notablewrap { width: 60%; margin: 0 auto; }
         .lifersheader { font-family: 'Nunito Sans', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; font-size: 32px; font-weight: 800; margin: 8px 0 10px 0; color: var(--header-bg); }
         table { border-collapse: collapse; width: 100%; }
@@ -991,7 +1021,22 @@
             if (el) {
                 try { window.Plotly.Plots.resize(el); } catch (e) {}
             }
-            applyMainPlotLayoutFixes();
+            scheduleMainPlotLayoutFixes();
+        }
+
+        let mainPlotLayoutFixPending = false;
+
+        function clamp(min, value, max) {
+            return Math.max(min, Math.min(max, value));
+        }
+
+        function scheduleMainPlotLayoutFixes() {
+            if (mainPlotLayoutFixPending) return;
+            mainPlotLayoutFixPending = true;
+            window.requestAnimationFrame(() => {
+                mainPlotLayoutFixPending = false;
+                applyMainPlotLayoutFixes();
+            });
         }
 
         function applyMainPlotLayoutFixes() {
@@ -999,11 +1044,20 @@
             const el = document.getElementById('mainPlot');
             if (!el) return;
             try {
+                const rect = el.getBoundingClientRect();
+                const w = rect.width || 0;
+                const h = rect.height || 0;
+
+                const l = clamp(60, Math.round(w * 0.12), 140);
+                const r = clamp(20, Math.round(w * 0.04), 60);
+                const t = clamp(20, Math.round(h * 0.06), 60);
+                const b = clamp(60, Math.round(h * 0.16), 160);
+
                 window.Plotly.relayout('mainPlot', {
-                    'margin.l': 120,
-                    'margin.r': 40,
-                    'margin.t': 40,
-                    'margin.b': 120,
+                    'margin.l': l,
+                    'margin.r': r,
+                    'margin.t': t,
+                    'margin.b': b,
                     'xaxis.automargin': true,
                     'yaxis.automargin': true,
                     'xaxis.ticklabeloverflow': 'allow',
@@ -1029,6 +1083,20 @@
             if (!root) return;
             root.querySelectorAll('.js-plotly-plot').forEach(el => {
                 try { window.Plotly.Plots.resize(el); } catch (e) {}
+            });
+        }
+
+        let activePaneResizePending = false;
+
+        function scheduleActivePaneResize() {
+            if (activePaneResizePending) return;
+            activePaneResizePending = true;
+            window.requestAnimationFrame(() => {
+                activePaneResizePending = false;
+                const activeBtn = document.querySelector('.tabbtn.active');
+                const tabId = activeBtn?.dataset?.tab || 'plot';
+                if (tabId === 'plot') resizeMainPlot();
+                else resizeWatchPlots(tabId);
             });
         }
 
@@ -1103,7 +1171,7 @@
             window.Plotly.relayout('mainPlot', { 'yaxis.range': yRange });
             setTitle(speciesName);
 
-            applyMainPlotLayoutFixes();
+            scheduleMainPlotLayoutFixes();
 
             if (speciesSelect) speciesSelect.value = String(i);
             if (trendingSelect) trendingSelect.value = trendingIndexSet.has(i) ? String(i) : '';
@@ -1207,7 +1275,7 @@
             };
 
             window.Plotly.newPlot('mainPlot', PLOT_DATA, PLOT_LAYOUT, config).then(() => {
-                applyMainPlotLayoutFixes();
+                scheduleMainPlotLayoutFixes();
                 return window.Plotly.addTraces('mainPlot', [trendTraceFull, trendTraceRecent]).then((newIdxs) => {
                     // Plotly's addTraces return value varies by version; rely on deterministic indices.
                     // We always append exactly two traces after the base PLOT_DATA.
@@ -1237,60 +1305,41 @@
                 panes.forEach(p => p.classList.remove('active'));
                 btn.classList.add('active');
                 document.getElementById(btn.dataset.tab).classList.add('active');
-                if (btn.dataset.tab === 'owls_common') {
-                    setTimeout(() => resizeWatchPlots('owls_common'), 0);
-                    speciesControls.style.display = 'none';
-                    setTitle('Owls - common');
-                }
-                if (btn.dataset.tab === 'owls_rare') {
-                    setTimeout(() => resizeWatchPlots('owls_rare'), 0);
-                    speciesControls.style.display = 'none';
-                    setTitle('Owls - rare');
-                }
-                if (btn.dataset.tab === 'watch_fire') {
-                    setTimeout(() => resizeWatchPlots('watch_fire'), 0);
-                    speciesControls.style.display = 'none';
-                    setTitle('Watchlist - fire');
-                }
-                if (btn.dataset.tab === 'watch_climate') {
-                    setTimeout(() => resizeWatchPlots('watch_climate'), 0);
-                    speciesControls.style.display = 'none';
-                    setTitle('Watchlist - climate change');
-                }
-                if (btn.dataset.tab === 'watch_landuse') {
-                    setTimeout(() => resizeWatchPlots('watch_landuse'), 0);
-                    speciesControls.style.display = 'none';
-                    setTitle('Watchlist - land use change');
-                }
-                if (btn.dataset.tab === 'plot') {
-                    setTimeout(resizeMainPlot, 0);
+
+                const tab = btn.dataset.tab;
+                scheduleActivePaneResize();
+
+                if (tab === 'plot') {
                     speciesControls.style.display = 'flex';
                     // Restore to currently selected species.
                     setTitle(SPECIES[Number(speciesSelect.value) || 0] || 'Wrentit');
+                    return;
                 }
+
+                speciesControls.style.display = 'none';
+                const titles = {
+                    owls_common: 'Owls - common',
+                    owls_rare: 'Owls - rare',
+                    watch_fire: 'Watchlist - fire',
+                    watch_climate: 'Watchlist - climate change',
+                    watch_landuse: 'Watchlist - land use change',
+                };
+                setTitle(titles[tab] || tab);
             });
         });
 
         window.addEventListener('resize', () => {
-            const owlsCommon = document.getElementById('owls_common');
-            const owlsRare = document.getElementById('owls_rare');
-            if (owlsCommon && owlsCommon.classList.contains('active')) {
-                resizeWatchPlots('owls_common');
-            }
-            if (owlsRare && owlsRare.classList.contains('active')) {
-                resizeWatchPlots('owls_rare');
-            }
-            const wf = document.getElementById('watch_fire');
-            if (wf && wf.classList.contains('active')) resizeWatchPlots('watch_fire');
-            const wc = document.getElementById('watch_climate');
-            if (wc && wc.classList.contains('active')) resizeWatchPlots('watch_climate');
-            const wl = document.getElementById('watch_landuse');
-            if (wl && wl.classList.contains('active')) resizeWatchPlots('watch_landuse');
-            const plotPane = document.getElementById('plot');
-            if (plotPane && plotPane.classList.contains('active')) {
-                resizeMainPlot();
-            }
+            scheduleActivePaneResize();
         });
+
+        // ResizeObserver catches non-window resizes (font load, tabbar wrapping, etc.)
+        try {
+            const contentEl = document.querySelector('.content');
+            if (contentEl && window.ResizeObserver) {
+                const ro = new ResizeObserver(() => scheduleActivePaneResize());
+                ro.observe(contentEl);
+            }
+        } catch (e) {}
 
         // Initial load
         initMainPlot();
