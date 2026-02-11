@@ -1,9 +1,16 @@
 # CBC Species Plot
 
 ## About the Christmas Bird Count
-The Christmas Bird Count is the nation’s longest-running community science bird project. They take place annualy between December 14 to January 5 in over 3000 count circles. More information can be found on the [Audubon website](https://www.audubon.org/community-science/christmas-bird-count). The Putah Creek CBC started in 1971 and has been held without interruption since then.
+The Christmas Bird Count is the nation’s longest-running community science bird project. <br>
+It occurs annually between December 14 and January 5 in over 3000 count circles. <br>
+More information can be found on the [Audubon website](https://www.audubon.org/community-science/christmas-bird-count).<br>
 
+## The Putah Creek CBC
+The Putah Creek CBC started in 1971 and has been held on the third Sunday of December every year since then. This count is organized and sponsored by the [Yolo Bird Alliance(https://yolobirdalliance.org/).<br>
 
+<iframe src="https://www.google.com/maps/d/embed?mid=13YasQCZkDl_FaimF4CfvduLzKyXIU3s&ehbc=2E312F" width="640" height="480"></iframe>
+
+## About the tool
 Plotly-based visualization of the Putah Creek CBC (CAPC) long-term dataset
 
 - Project page: https://hydrospheric0.github.io/cbc-capcplot/
