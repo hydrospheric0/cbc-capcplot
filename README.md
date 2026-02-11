@@ -8,7 +8,6 @@ More information can be found on the [Audubon website](https://www.audubon.org/c
 ## The Putah Creek CBC
 The Putah Creek CBC started in 1971 and has been held on the third Sunday of December every year since then. This count is organized and sponsored by the [Yolo Bird Alliance(https://yolobirdalliance.org/).<br>
 
-<iframe src="https://www.google.com/maps/d/embed?mid=13YasQCZkDl_FaimF4CfvduLzKyXIU3s&ehbc=2E312F" width="640" height="480"></iframe>
 
 ## About the tool
 Plotly-based visualization of the Putah Creek CBC (CAPC) long-term dataset
