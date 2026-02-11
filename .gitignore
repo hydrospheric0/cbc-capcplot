@@ -2,6 +2,16 @@
 __pycache__/
 *.pyc
 .DS_Store
+.vscode/
+
+# Local env files
+.env
+.env.*
+
+# Node / tooling caches
+**/.vite/
+**/.cache/
+**/.eslintcache
 
 # Node
 node_modules/
@@ -28,6 +38,9 @@ data/archive/
 # Optional debug artifacts
 *debug*.html
 *page*.html
+
+# Misc
+*.log
 
 # Local helper scripts (not tracked)
 pushit.sh

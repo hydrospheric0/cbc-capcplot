@@ -8,9 +8,17 @@ More information can be found on the [Audubon website](https://www.audubon.org/c
 ## The Putah Creek CBC
 The Putah Creek CBC started in 1971 and has been held on the third Sunday of December every year since then. This count is organized and sponsored by the [Yolo Bird Alliance(https://yolobirdalliance.org/).<br>
 
+The count is conducted by consistently covering 
+10 sub-areas with 70-100 participants each year.<br>
+![Count circle map](assets/count_circle.png)
+
 
 ## About the tool
-Plotly-based visualization of the Putah Creek CBC (CAPC) long-term dataset
+This tool allows visualization of the Putah Creek CBC (CAPC) long-term dataset. A set of indicators and a subset of species has been added to evaluate trends in:
+- Owl counts
+- Fire affected species
+- Climate change indicator species
+- Land use change indicator species
 
 - Project page: https://hydrospheric0.github.io/cbc-capcplot/
 
