@@ -20,6 +20,11 @@
                     --border: rgba(0,0,0,0.18);
                     --panel: #fff;
                     --panel-muted: #f7f7f7;
+                    --ui-scale: clamp(0.9, 0.45vw + 0.78, 1.12);
+                    --topbar-h: clamp(4.9rem, 8.8vh, 6.7rem);
+                    --footer-h: clamp(4.1rem, 8vh, 5.8rem);
+                    --topbar-pad-x: clamp(0.7rem, 1.45vw, 0.95rem);
+                    --panel-pad: clamp(0.42rem, 0.85vh, 0.62rem) clamp(0.52rem, 1.1vw, 0.82rem);
                 }
 
                 html, body { height: 100%; margin: 0; background: #fff; }
@@ -27,7 +32,7 @@
 
                 .app {
                     display: grid;
-                    grid-template-rows: 150px auto minmax(0, 1fr) 100px;
+                    grid-template-rows: var(--topbar-h) auto minmax(0, 1fr) var(--footer-h);
                     height: 100svh;
                     width: 100%;
                     background: #fff;
@@ -36,14 +41,15 @@
                 .topbar {
                     width: 100%;
                     box-sizing: border-box;
-                    height: 150px;
-                    padding: 0 18px;
+                    height: var(--topbar-h);
+                    min-height: var(--topbar-h);
+                    padding: 0 var(--topbar-pad-x);
                     display: flex;
                     align-items: center;
                     justify-content: space-between;
                     border-bottom: 1px solid rgba(0, 0, 0, 0.08);
                     font-weight: 800;
-                    font-size: 32px;
+                    font-size: clamp(1.2rem, 1.9vw, 1.65rem);
                     line-height: 1.15;
                     background: var(--header-bg);
                     color: #f9fafb;
@@ -51,36 +57,36 @@
                 }
 
                 .topbarTitle {
-                    padding-right: 10px;
+                    padding-right: clamp(0.45rem, 0.9vw, 0.65rem);
                     display: flex;
                     flex-direction: column;
-                    gap: 6px;
+                    gap: clamp(0.16rem, 0.4vh, 0.28rem);
                 }
 
                 .appTitle {
-                    font-size: 32px;
+                    font-size: clamp(1.2rem, 1.9vw, 1.65rem);
                     line-height: 1.15;
                 }
 
                 .topbarMeta {
                     font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-                    font-size: 12px;
+                    font-size: clamp(0.64rem, 0.72vw, 0.78rem);
                     font-weight: 600;
                     line-height: 1.25;
                     color: rgba(255, 255, 255, 0.9);
                 }
 
                 .infoButton {
-                    width: 34px;
-                    height: 34px;
+                    width: clamp(1.6rem, 2.8vh, 1.9rem);
+                    height: clamp(1.6rem, 2.8vh, 1.9rem);
                     border-radius: 999px;
                     border: 3px solid rgba(255, 255, 255, 0.95);
                     background: var(--accent-teal);
                     color: #f9fafb;
                     cursor: pointer;
                     font-weight: 900;
-                    font-size: 16px;
-                    line-height: 34px;
+                    font-size: clamp(0.72rem, 1.2vh, 0.9rem);
+                    line-height: clamp(1.45rem, 2.6vh, 1.8rem);
                     text-align: center;
                     flex: 0 0 auto;
                 }
@@ -90,39 +96,39 @@
                 .controlsbar {
                     width: 100%;
                     box-sizing: border-box;
-                    padding: 10px 18px;
+                    padding: clamp(0.32rem, 0.72vh, 0.48rem) var(--topbar-pad-x);
                     display: flex;
                     align-items: center;
                     justify-content: space-between;
-                    gap: 12px;
+                    gap: clamp(0.5rem, 1vw, 0.75rem);
                     border-bottom: 1px solid rgba(0, 0, 0, 0.08);
                     background: var(--panel-muted);
                     color: var(--text);
                 }
 
-                .tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+                .tabs { display: flex; gap: clamp(0.35rem, 0.8vw, 0.5rem); flex-wrap: wrap; }
                 .tabbtn {
                     border: 1px solid rgba(0, 0, 0, 0.18);
                     background: rgba(255, 255, 255, 0.95);
                     color: var(--header-bg);
-                    padding: 8px 12px;
+                    padding: clamp(0.3rem, 0.72vh, 0.45rem) clamp(0.48rem, 1vw, 0.66rem);
                     cursor: pointer;
                     border-radius: 8px;
                     font-weight: 800;
-                    font-size: 12px;
+                    font-size: clamp(0.6rem, 0.66vw, 0.73rem);
                 }
                 .tabbtn:hover { background: var(--panel-muted); }
                 .tabbtn.active { border-color: rgba(0, 150, 136, 0.75); background: rgba(0, 150, 136, 0.14); }
 
-                .speciesctl { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-                .speciesctl label { font-weight: 800; color: #111827; font-size: 12px; }
+                .speciesctl { display: flex; align-items: center; gap: clamp(0.35rem, 0.8vw, 0.5rem); flex-wrap: wrap; }
+                .speciesctl label { font-weight: 800; color: #111827; font-size: clamp(0.64rem, 0.72vw, 0.78rem); }
                 .speciesctl select {
-                    padding: 8px 10px;
+                    padding: clamp(0.3rem, 0.72vh, 0.45rem) clamp(0.42rem, 0.92vw, 0.6rem);
                     border-radius: 8px;
                     border: 1px solid rgba(0, 0, 0, 0.18);
                     background: rgba(255, 255, 255, 0.95);
                     font-weight: 700;
-                    font-size: 12px;
+                    font-size: clamp(0.6rem, 0.66vw, 0.73rem);
                 }
 
                 .content {
@@ -132,7 +138,7 @@
                 }
 
                 .pane { display: none; height: 100%; box-sizing: border-box; }
-                .pane.active { display: block; height: 100%; overflow: auto; padding: 14px; }
+                .pane.active { display: block; height: 100%; overflow: auto; padding: clamp(0.6rem, 1.3vh, 0.9rem); }
 
                 /* Plot pane: split into two clear regions (plot + trendline) */
                 #plot.pane.active {
@@ -144,9 +150,9 @@
         /* Plot page layout: centered, 80% width */
         .plotheader {
             width: 80%;
-                        margin: 2px auto 8px auto;
+            margin: clamp(0.1rem, 0.35vh, 0.18rem) auto clamp(0.35rem, 0.9vh, 0.5rem) auto;
             font-family: 'Nunito Sans', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-            font-size: 36px;
+            font-size: clamp(1.28rem, 2.2vw, 1.85rem);
             font-weight: 800;
             color: var(--header-bg);
         }
@@ -204,7 +210,7 @@
                     /* Plotly sometimes sets inline heights; force it to respect our flex height */
                     #mainPlot.js-plotly-plot { height: 100% !important; }
         .notablewrap { width: 60%; margin: 0 auto; }
-        .lifersheader { font-family: 'Nunito Sans', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; font-size: 32px; font-weight: 800; margin: 8px 0 10px 0; color: var(--header-bg); }
+        .lifersheader { font-family: 'Nunito Sans', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; font-size: clamp(1.18rem, 1.9vw, 1.65rem); font-weight: 800; margin: clamp(0.28rem, 0.72vh, 0.4rem) 0 clamp(0.35rem, 0.8vh, 0.5rem) 0; color: var(--header-bg); }
         table { border-collapse: collapse; width: 100%; }
         th, td { border: 1px solid #ddd; padding: 6px 8px; }
         th { background: var(--panel-muted); text-align: left; color: var(--header-bg); }
@@ -251,23 +257,24 @@
         .trendwrap { width: 80%; margin: 0 auto; }
         .trendctl { display: flex; align-items: center; gap: 8px; font-weight: 600; }
         .trendstats {
-            margin-top: 8px;
-            padding: 10px 12px;
+            margin-top: clamp(0.35rem, 0.9vh, 0.5rem);
+            padding: var(--panel-pad);
             border: 1px solid var(--border);
             border-radius: 6px;
             background: var(--panel-muted);
             font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
             white-space: pre-wrap;
             display: none;
-            max-height: calc(100% - 34px);
+            max-height: calc(100% - clamp(1.5rem, 3.2vh, 2.15rem));
             overflow: auto;
         }
 
         .footerbar {
             width: 100%;
             box-sizing: border-box;
-            height: 100px;
-            padding: 0 18px;
+            height: var(--footer-h);
+            min-height: var(--footer-h);
+            padding: 0 var(--topbar-pad-x);
             display: flex;
             align-items: center;
             justify-content: flex-end;
@@ -284,7 +291,7 @@
 
         .bmcButton {
             display: block;
-            height: 44px;
+            height: clamp(2rem, 4.2vh, 2.75rem);
             width: auto;
         }
 
@@ -296,10 +303,10 @@
             display: flex;
             align-items: flex-start;
             justify-content: flex-end;
-            padding-top: calc(150px + 12px);
-            padding-right: 10px;
-            padding-left: 10px;
-            padding-bottom: 18px;
+            padding-top: calc(var(--topbar-h) + clamp(0.5rem, 1vh, 0.75rem));
+            padding-right: clamp(0.5rem, 1vw, 0.7rem);
+            padding-left: clamp(0.5rem, 1vw, 0.7rem);
+            padding-bottom: clamp(0.8rem, 1.8vh, 1.15rem);
             box-sizing: border-box;
             overflow: auto;
         }
@@ -315,14 +322,14 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            max-height: calc(100vh - (150px + 12px) - 18px);
+            max-height: calc(100vh - (var(--topbar-h) + clamp(0.5rem, 1vh, 0.75rem)) - clamp(0.8rem, 1.8vh, 1.15rem));
         }
 
         .modalHeader {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 12px 14px;
+            padding: var(--panel-pad);
             border-bottom: 1px solid rgba(0,0,0,0.08);
             background: var(--accent-green);
             color: #fff;
@@ -345,15 +352,15 @@
         .modalClose:hover { background: rgba(255,255,255,0.16); }
 
         .modalBody {
-            padding: 12px 14px 16px;
-            font-size: 14px;
+            padding: clamp(0.55rem, 1.1vh, 0.75rem) clamp(0.65rem, 1.35vw, 0.95rem) clamp(0.75rem, 1.5vh, 1rem);
+            font-size: clamp(0.74rem, 0.88vw, 0.9rem);
             line-height: 1.45;
             overflow: auto;
             font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
         }
 
         .modalBody p { margin: 0; }
-        .modalBody ul { margin: 8px 0 0 18px; padding: 0; }
+        .modalBody ul { margin: clamp(0.3rem, 0.8vh, 0.45rem) 0 0 clamp(0.7rem, 1.4vw, 1rem); padding: 0; }
         .modalBody a { color: inherit; text-decoration: underline; }
         .hidden { display: none !important; }
     </style>
