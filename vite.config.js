@@ -5,7 +5,8 @@ export default defineConfig({
   // `index.html` redirects to `species_plot.html`.
   server: {
     port: 5173,
-    strictPort: true
+    strictPort: true,
+    cors: false
   },
   preview: {
     port: 4173,

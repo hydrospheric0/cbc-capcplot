@@ -1,0 +1,3 @@
+# Tell GitHub Linguist that the bundled single-file app is generated output,
+# so language stats reflect the actual source files instead.
+index.html linguist-generated=true
